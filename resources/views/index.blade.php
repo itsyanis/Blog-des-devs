@@ -28,16 +28,14 @@
                                 <h3 class="post-subtitle">{{ $post->subtitle }}</h3>
                             </a>
 
-                            @foreach ($post->tags as $tag)
-                              <span class="badge bg-secondary"> {{ $tag }}</span>    
-                            @endforeach
+                            <span class="badge bg-secondary"> {{ $post->category->name }}</span>    
 
                             <p>{!! Str::words($post->content, 30 , ' ...') !!}</p>
                             
                             <p class="post-meta">
                                 Posté par
                                 <a href="{{ route('about') }}">{{ $post->author->first_name . ' ' . $post->author->last_name }}</a>
-                                le {{ $post->created_at }}
+                                le {{ $post->created_at->toFormattedDateString() }}
                             </p>
                         </div>
                         <!-- Divider-->

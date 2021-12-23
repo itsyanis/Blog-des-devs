@@ -39,7 +39,7 @@
                             <p class="post-meta">
                                 Posté par
                                 <a href="{{ route('about') }}">{{ $post->author->first_name . ' ' . $post->author->last_name }}</a>
-                                le {{ $post->created_at }}
+                                le {{ $post->created_at->toFormattedDateString() }}
                             </p>
                         </div>
                         <!-- Divider-->
