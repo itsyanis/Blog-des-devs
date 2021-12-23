@@ -31,7 +31,7 @@
                     </div>
                 </div>
 
-                <input type="hidden" name="slug" value="{{ $post->slug}}" hidden>
+                <input type="hidden" name="slug" value="{{ $post->slug }}" hidden>
 
                 <div class="d-flex justify-content-center">
                     <button type="button" class="btn btn-success text-uppercase" id="publishPost">Publier le contenu</button>
@@ -115,7 +115,7 @@
     @endsection
 
 @else
-
-    @php return abort(404) @endphp
-
+    @php 
+       return abort(404) 
+    @endphp
 @endif

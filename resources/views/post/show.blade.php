@@ -38,10 +38,12 @@
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
-                    
-                    @foreach ($post->tags as $tag)
-                       <span class="badge bg-secondary"> {{ $tag }}</span>    
-                    @endforeach
+                    <div class="d-flex justify-content-between">
+                        @foreach ($post->tags as $tag)
+                            <span class="badge bg-secondary"> {{ $tag }}</span>    
+                        @endforeach
+                        <span> {{ $post->comments->count() }} <i class="far fa-comments fa-2x"></i></span>
+                    </div>
 
                     {!! $post->content !!}
 

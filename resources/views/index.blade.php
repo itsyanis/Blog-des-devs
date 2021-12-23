@@ -24,10 +24,12 @@
                         <!-- Post preview-->
                         <div class="post-preview">
                             <a href="{{ route('post.show', $post->slug) }}">
-                                <h2 class="post-title">{{ $post->title }}</h2>
+                                <div class="d-flex justify-content-between">
+                                    <h2 class="post-title">{{ $post->title }} </h2> 
+                                    <small>{{ $post->comments->count() }} <i class="far fa-comments fa-2x"></i></small>
+                                </div>
                                 <h3 class="post-subtitle">{{ $post->subtitle }}</h3>
                             </a>
-
                             <span class="badge bg-secondary"> {{ $post->category->name }}</span>    
 
                             <p>{!! Str::words($post->content, 30 , ' ...') !!}</p>
