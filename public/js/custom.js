@@ -49,7 +49,9 @@ $('form[is-dynamic-form]').submit(function(e) {
                 });
                 
                 // Scroll to error msg
-                $(window).scrollTop($('.is-invalid').offset().top);
+                if($('.is-invalid').length){
+                  $(window).scrollTop($('form[is-dynamic-form]').offset().top);
+                }
             }
         }
     });
