@@ -22,7 +22,6 @@ class CreatePostsTable extends Migration
             $table->string('tags')->nullable();
             $table->text('content');
             $table->text('image');
-            $table->text('content_image')->nullable();
             $table->boolean('is_published')->default(false);
             $table->unsignedBigInteger('category_id')->index();
             $table->timestamps();
@@ -31,7 +30,7 @@ class CreatePostsTable extends Migration
                                           ->on('categories');
 
             $table->foreign('author_id')->references('id')
-                                     ->on('users');
+                                        ->on('users');
         });
     }
 
