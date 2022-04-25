@@ -44,4 +44,33 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+
+    public function getStatusName()
+    {
+        switch ($this->is_published) {
+            case 0:
+              return 'non publié';
+        
+            case 1:
+               return 'publié' ;
+            
+            default:
+               return '';
+        }
+    }
+
+    public function getStatusColor()
+    {
+        switch ($this->is_published) {
+            case 0:
+              return 'warning';
+        
+            case 1:
+               return 'success' ;
+            
+            default:
+               return 'primary';
+        }
+    }
 }
