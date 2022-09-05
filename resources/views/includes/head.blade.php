@@ -13,13 +13,8 @@
     <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
 
-    @if (Request::is('admin/*'))
-        <!-- Admin dashboard theme CSS -->
-        <link rel="stylesheet" href="{{ asset('css/admin/style.css') }}">
-    @else
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
-    @endif
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
 
     <!-- Font Awesome icons-->
     <script src="https://kit.fontawesome.com/c2e044a1c3.js" crossorigin="anonymous"></script>

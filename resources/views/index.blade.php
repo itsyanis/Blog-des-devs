@@ -16,14 +16,14 @@
 @endsection
 
 @section('content')
-    <div class="container px-4 px-lg-5">
-        <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="container">
+        <div class="flex d-flex justify-content-center">           
             @if ($posts->isNotEmpty())
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     @foreach ($posts as $post)
                         <!-- Post preview-->
                         <div class="post-preview">
-                            <a href="{{ route('post.show', $post->slug) }}">
+                            <a href="{{ route('post.show', $post->id) }}">
                                 <div class="d-flex justify-content-between">
                                     <h2 class="post-title">{{ $post->title }} </h2> 
                                     <small>{{ $post->comments->count() }} <i class="far fa-comments fa-2x"></i></small>
@@ -44,10 +44,16 @@
                         <hr class="my-4" />
                     @endforeach
 
-                    <!-- More Post-->
-                    <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="{{ route('post.index') }}">Voir tous les articles →</a></div>
+                    <div class="d-flex justify-content-between mb-4">
+                        <!-- More Post-->
+                        <a type="button" class="btn btn-primary text-uppercase" href="{{ route('post.index') }}">Voir tous les articles →</a>
+                    </div>
                 </div>
             @endif
+             <!-- Create Post-->
+             @if (Auth::user())
+               <a type="button" href="{{ route('post.create') }}" class="btn btn-primary text-uppercase"><i class="fa fa-plus"></i> Publier un article</a>
+             @endif
         </div>
     </div>
 @endsection

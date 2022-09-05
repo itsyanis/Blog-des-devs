@@ -39,7 +39,6 @@
 
         <!-- Scripts-->
         @include('includes.scripts')
-        @yield('script')
         
     </body>
 </html>

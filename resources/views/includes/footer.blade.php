@@ -28,7 +28,8 @@
                 </li>
             </ul>
             <div class=" text-center fst-italic mb-3">Développé avec ❤️ par <a href="https://twitter.com/yanis_ovitch" target="_blank">Yanis Maafi </a></div>
-            <div class="small text-center text-muted fst-italic">Copyright &copy; <a href="{{ route('index') }}">Le Blog des Devs </a>2021</div>
+            <div class="small text-center text-muted fst-italic">Copyright &copy; <a href="{{ route('index') }}">Le Blog des Devs </a><script>document.write(/\d{4}/.exec(Date())[0])</script>
+            </div>
         </div>
     </div>
 </div>

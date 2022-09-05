@@ -150,9 +150,9 @@
             },
         }
 
-        // This function will redirect to unpublished post after create it
-        function redirectToUnpublished(slug) {
-            let route = "{{ route('unpublished.show', ':slug') }}".replace(':slug',slug);
+        // This function will redirect to show-post page after creation
+        function redirectToShowPage(post) {
+            let route = "{{ route('post.show', ':post') }}".replace(':post',post);
             window.location.href = route;
         }
 

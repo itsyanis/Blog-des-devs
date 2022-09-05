@@ -25,7 +25,7 @@
                     @foreach ($posts as $post)
                         <!-- Post preview-->
                         <div class="post-preview">
-                            <a href="{{ route('post.show', $post->slug) }}">
+                            <a href="{{ route('post.show', $post->id) }}">
                                 <h2 class="post-title">{{ $post->title }}</h2>
                                 <h3 class="post-subtitle">{{ $post->subtitle }}</h3>
                             </a>

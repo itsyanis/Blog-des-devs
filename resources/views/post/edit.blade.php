@@ -3,6 +3,10 @@
 @section('style')
     <!-- Dropzone Stylesheet -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.css" integrity="sha512-7uSoC3grlnRktCWoO4LjHMjotq8gf9XDFQerPuaph+cqR7JC9XKGdvN+UwZMC14aAaBDItdRj3DcSDs4kMWUgg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+   
+    <!-- Sweet Alert 2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+
 @endsection
 
 
@@ -28,7 +32,7 @@
         <div class="col-10">
             <p class="text-center form-header">Ecrivez, pendant que vous avez du génie, pendant que c'est le dieu qui vous dicte, et non la mémoire.</p>
             <div class="my-5">
-                <form action="{{ route('post.update', $post->slug) }}" method="POST" autocomplete="off" is-dynamic-form>
+                <form action="{{ route('post.update', $post) }}" method="POST" autocomplete="off" is-dynamic-form>
                     @csrf
                     @method('PUT')
 
@@ -152,6 +156,12 @@
                 file.previewElement.remove();
             }
         }
+
+    // This function will redirect to show-post page after edit
+    function redirectToShowPage(post) {
+        let route = "{{ route('post.show', ':post') }}".replace(':post',post);
+        window.location.href = route;
+    }
 
   </script>
 

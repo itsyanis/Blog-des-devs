@@ -1,6 +1,6 @@
     <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="{{ route('index') }}">Le Blog des Devs
-           {{-- <img class="logo" src="{{ asset('img/logo/3af9a8d210454ff1bd6b4347f7859a01.png')}}" class="mt-0" alt=""> --}}
+           {{-- <img class="logo" src="{{ asset('img/logo/')}}" class="mt-0" alt=""> --}}
         </a>
       
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
