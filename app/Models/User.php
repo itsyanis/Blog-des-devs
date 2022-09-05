@@ -42,14 +42,20 @@ class User extends Authenticatable
      */
     protected $casts = [
         'first_name' => SafeCast::class,
-        'last_name' => SafeCast::class,
-        'email' => SafeCast::class,
+        'last_name'  => SafeCast::class,
+        'email'      => SafeCast::class,
         'email_verified_at' => 'datetime',
     ];
 
 
     public function posts()
     {
-         return $this->hasMany(Post::class);
+        return $this->hasMany(Post::class);
+    }
+
+
+    public function getFullName()
+    {
+        return $this->first_name. ' ' .$this->last_name;
     }
 }
