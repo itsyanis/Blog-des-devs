@@ -1,4 +1,4 @@
-    
+
 /* Tags Input */
 $(document).ready(function(){ 
     if($('#tags-input').length) {
@@ -9,7 +9,6 @@ $(document).ready(function(){
 
 /* Form Processing */
 $('form[is-dynamic-form]').submit(function(e) {
-    
     e.preventDefault();
     resetErrorMessages(this);
     updateCKEditor();
@@ -35,9 +34,7 @@ $('form[is-dynamic-form]').submit(function(e) {
             }
             
             if(data.callback && typeof window[data.callback.functionName] == 'function') {
-                setTimeout( function() {
-                    window[data.callback.functionName](data.callback.args)
-                }, 1500);
+                window[data.callback.functionName](data.callback.args)
             }
         },
 
@@ -65,7 +62,7 @@ function initializeForm(form) {
 
     // Clear tags input if exists
     if($('#tags-input').length) {
-        $('#tags-input').tagsinput('removeAll');
+       $('#tags-input').tagsinput('removeAll');
     }
 
     // Clear CKEditor
