@@ -32,10 +32,8 @@ class FileRequest extends FormRequest
     {
         return [
             'file.required' => 'Veuillez déposer une image.',
-            'file.mimes' => 'Veuillez réspecter le format : jpg,jpeg,png,webp,gif,svg.',
-            'file.max' => 'La taille de l\'image ne doit pas dépasser 8 MO.',
-
-
+            'file.mimes'    => 'Veuillez réspecter le format : jpg,jpeg,png,webp,gif,svg.',
+            'file.max'      => 'La taille de l\'image ne doit pas dépasser 8 MO.',
         ];
     }
 }

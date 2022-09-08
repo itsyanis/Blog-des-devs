@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class PagesController extends Controller
@@ -15,9 +14,9 @@ class PagesController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index() 
+    public function index()
     {
-        $posts = Post::where('is_published', true)->orderByDesc('created_at')->get();
+        $posts = Post::with(['category', 'author'])->where('is_published', true)->orderByDesc('created_at')->paginate(5);
         return view('index', compact('posts'));
     }
 
@@ -27,7 +26,7 @@ class PagesController extends Controller
      * @return \Illuminate\Http\Response
      */
     
-    public function about() 
+    public function about()
     {
         return view('about');
     }
@@ -38,7 +37,7 @@ class PagesController extends Controller
      * @return \Illuminate\Http\Response
      */
     
-    public function contact() 
+    public function contact()
     {
         return view('contact');
     }

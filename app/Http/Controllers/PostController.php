@@ -7,13 +7,12 @@ use App\Models\Comment;
 use App\Models\Category;
 use App\helpers\Notifier;
 use Cocur\Slugify\Slugify;
-use League\Flysystem\File;
 use Illuminate\Http\Request;
 use App\Http\Requests\FileRequest;
 use App\Http\Requests\PostRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CommentRequest;
-use Illuminate\Filesystem\Filesystem;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
@@ -27,22 +26,11 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::where('is_published',true)->paginate(5);
+        $posts = Post::with(['category', 'author'])->where('is_published', true)->paginate(5);
         return view('post.index', compact('posts'));
     }
     
 
-    /**
-     * Display unpublished post.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-    public function unpublished_post()
-    {
-        $posts = Post::where('is_published',false)->paginate(5);
-        return view('post.inpublished.index', compact('posts'));
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -51,7 +39,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        $categories = Category::select('id','name')->get();
+        $categories = Category::select('id', 'name')->get();
         return view('post.create', compact('categories'));
     }
 
@@ -63,8 +51,7 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
-        if(request()->ajax())
-        {
+        if (request()->ajax()) {
             $post = new Post();
        
             $slug = new Slugify();
@@ -77,14 +64,12 @@ class PostController extends Controller
             $post->category()->associate($request->category);
             $post->author()->associate(Auth::user()->id);
           
-            if ($post->save())
-            {
-                $notification = new Notifier('success','Le post a été ajouté avec succès', 'redirectToUnpublished', $post->slug);
+            if ($post->save()) {
+                $notification = new Notifier('success', 'Le post a été ajouté avec succès', 'redirectToShowPage', $post->id);
                 return $notification->toJson();
-            }else
-            {
+            } else {
                 Storage::disk('public')->delete($post->image);
-                $notification = new Notifier('error','Une erreur est survenue veuillez vérifier vos champs', null, null);
+                $notification = new Notifier('error', 'Une erreur est survenue veuillez vérifier vos champs', null, null);
                 return $notification->toJson();
             }
         }
@@ -93,60 +78,30 @@ class PostController extends Controller
     /**
      * Display the specified post.
      *
-     * @param  string  $slug
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show(int $id)
     {
-        $post = Post::with('comments')->where('slug', $slug)
-                                      ->where('is_published', true)
-                                      ->firstOrFail();
-                    
+        $post = Post::with('comments')->where('id', $id)->firstOrFail();
         return view('post.show', compact('post'));
     }
 
-
     /**
-     * Display the specified post.
+     * Publish post.
      *
-     * @param  string  $slug
+     * @param  Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show_unpublished($slug)
+    public function publish(Post $post)
     {
-        $post = Post::where('slug', $slug)
-                    ->where('is_published', false)
-                    ->firstOrFail();
-                    
-        return view('post.unpublished.show', compact('post'));
-    }
-
-    /**
-     * Publish a post.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function publish_post(Request $request)
-    {   
-        $request->validate([
-          'slug' => 'required|string|exists:posts,slug',
-        ]);
-
-        $post = Post::where('slug', $request->slug)->firstOrFail();
+        $post = Post::where('slug', $post->slug)->firstOrFail();
         $post->is_published = true;
         
-        if($post->save())
-        {
-            $notification = new Notifier('success','Le post a été ajouté avec succès', null, null);
-            return $notification->toJson();
+        if ($post->save()) {
+            return redirect()->route('post.show',$post->id);
         }
-        else 
-        {
-            $notification = new Notifier('error','Une erreur est survenue ...', null, null);
-            return $notification->toJson();
-        }
-    } 
+    }
 
     /**
      * Store a comment.
@@ -156,20 +111,18 @@ class PostController extends Controller
      */
     public function addComment(CommentRequest $request, $post_id)
     {
-        if(request()->ajax())
-        {
+        if (request()->ajax()) {
             $comment = new Comment();
-            $comment->author_name = $request->author;
+            $comment->author_name = ucfirst($request->author);
             $comment->content = ucfirst($request->comment);
             $comment->post()->associate($post_id);
     
-            if ($comment->save())
-            {
-                $notification = new Notifier('success','Commentaire ajouté', 'pushComment', $comment);
+            if ($comment->save()) {
+                $comment_date = $comment->created_at->isoFormat('MMMM Do YYYY, h:mm:ss a', 'UTC');
+                $notification = new Notifier('success', 'Commentaire ajouté', 'pushComment', [$comment,$comment_date] );
                 return $notification->toJson();
-            }else
-            {
-                $notification = new Notifier('error','Une erreur est survenue veuillez vérifier vos champs', null, null);
+            } else {
+                $notification = new Notifier('error', 'Une erreur est survenue veuillez vérifier vos champs', null, null);
                 return $notification->toJson();
             }
         }
@@ -178,36 +131,34 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit($slug)
-    {   
-        $post = Post::where('slug', $slug)->firstOrFail();
+    public function edit(Post $post)
+    {
+        $post = Post::findOrFail($post->id);
         $categories = Category::select('id', 'name')->get();
 
-        if(request()->ajax())
-        {
+        if (request()->ajax()) {
             return response()->json([
                  'file' => $post->image
             ], 200);
         }
 
-        return view('post.edit', compact('post','categories'));
-    } 
+        return view('post.edit', compact('post', 'categories'));
+    }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(PostRequest $request, $slug)
+    public function update(PostRequest $request, Post $post)
     {
-        if(request()->ajax())
-        {
-            $post = Post::where('slug', $slug)->firstOrFail();
+        if (request()->ajax()) {
+            $post = Post::findOrFail($post->id);
        
             $slug = new Slugify();
             $post->slug = $slug->slugify($request->title);
@@ -218,15 +169,13 @@ class PostController extends Controller
             $post->content = $request->content;
             $post->category()->associate($request->category);
     
-            if ($post->save())
-            {
-                $notification = new Notifier('success','Le post a été modifié avec succès', null, null);
+            if ($post->save()) {
+                $notification = new Notifier('success', 'Le post a été modifié avec succès', 'redirectToShowPage', $post->id);
                 return $notification->toJson();
-            }else
-            {
-                $notification = new Notifier('error','Une erreur est survenue veuillez vérifier vos champs', null, null);
+            } else {
+                $notification = new Notifier('error', 'Une erreur est survenue veuillez vérifier vos champs', null, null);
                 return $notification->toJson();
-            }    
+            }
         }
     }
 
@@ -237,26 +186,16 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {    
-        if(request()->ajax())
-        {
-            $post = Post::findOrFail($id);
+    {
+        $post = Post::findOrFail($id);
 
-            if ($post->delete())
-            {
-                if(Storage::disk('public')->exists($post->image))
-                {
-                    Storage::disk('public')->delete($post->image);
-                }
-    
-                $notification = new Notifier('success','Le post a été supprimé avec succès', null, null);
-                return $notification->toJson();
-            }else
-            {
-                $notification = new Notifier('error','Une erreur est survenue lors de la suppréssion', null, null);
-                return $notification->toJson();
-            }    
+        if ($post->delete()) {
+            if (Storage::disk('public')->exists($post->image)) {
+                Storage::disk('public')->delete($post->image);
+            }
         }
+
+        return redirect()->route('index')->with('success', 'Post supprimé avec succès');
     }
 
     /**
@@ -270,12 +209,11 @@ class PostController extends Controller
         $imageName = basename($tempImagePath);
         $newImagePath = 'posts/'. $imageName;
 
-        if(Storage::disk('public')->exists($tempImagePath))
-        {
+        if (Storage::disk('public')->exists($tempImagePath)) {
             // Move the temporary image from 'public/temp' to public 'public/posts'
             Storage::move('public/' . $tempImagePath, 'public/' . $newImagePath);
           
-            // Delete the temp folder 
+            // Delete the temp folder
             Storage::disk('public')->deleteDirectory('temp');
 
             // Return new image Path
@@ -292,15 +230,13 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function storeTempFile(FileRequest $request) 
+    public function storeTempFile(FileRequest $request)
     {
-        if(request()->ajax())
-        {
+        if (request()->ajax()) {
             // Clear all files in the temp directory
             Storage::disk('public')->deleteDirectory('temp');
 
-            if($request->file('file'))
-            {
+            if ($request->file('file')) {
                 // Get filename with the extension
                 $filename = $request->file->getClientOriginalName();
 
@@ -316,9 +252,8 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function CKEditorUploadImage(Request $request)
-    {   
-        if($request->hasFile('upload')) 
-        {
+    {
+        if ($request->hasFile('upload')) {
             $originName = $request->file('upload')->getClientOriginalName();
             $fileName = pathinfo($originName, PATHINFO_FILENAME);
             $extension = $request->file('upload')->getClientOriginalExtension();
@@ -328,36 +263,14 @@ class PostController extends Controller
             $request->file('upload')->storeAs('public/posts', $fileName);
             
             $CKEditorFuncNum = $request->input('CKEditorFuncNum');
-            $url = asset('storage/posts/'. $fileName); 
-            $msg = "L\'image a été uploadée avec succès."; 
+            $url = asset('storage/posts/'. $fileName);
+            $msg = "L\'image a été uploadée avec succès.";
             $response = "<script>window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, '$url', '$msg')</script>";
 
-            @header('Content-type: text/html; charset=utf-8'); 
+            @header('Content-type: text/html; charset=utf-8');
             echo $response;
         }
     }
-
-    /**
-     * Update CKEditor Content.
-     * 
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-
-    private function CKEditorUpdateContent(PostRequest $request ,Post $post)
-    {
-        // ici je vais faire le meme pricipe mais juste autrement
-        // Je vais parcourir content_image et verifier pour chauqe content_image si strpos avec content si non je supprime
-       
-        // Check if image was deleted 
-        if(strpos($request->content, $post->image) == false)
-        {
-              Storage::disk('public')->delete($post->image);
-        }
-
-        return $request->content;
-    }
-
 
     /**
      * Delete a temporary dropzone file from storage '/storage/temp'.
@@ -366,12 +279,10 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function deleteTempFile(Request $request) 
+    public function deleteTempFile(Request $request)
     {
-        if(request()->ajax())
-        {
-            if(Storage::disk('public')->exists('temp/' . $request->fileName))
-            {
+        if (request()->ajax()) {
+            if (Storage::disk('public')->exists('temp/' . $request->fileName)) {
                 Storage::disk('public')->delete('temp/' . $request->fileName);
             }
         }

@@ -24,7 +24,7 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->randomElement(['Web Development', 'Network']),
+            'name' => $this->faker->randomElement(['Web Development', 'Network', 'Data', 'IA']),
             'slug' => $this->faker->unique()->slug,
         ];
     }

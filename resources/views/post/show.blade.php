@@ -24,6 +24,14 @@
                             <a href="#!">{{ $post->author->first_name .' '. $post->author->last_name }}</a>
                             {{ $post->created_at->toFormattedDateString() }}
                         </span>
+                        <div class="flex mt-3">
+                            @foreach ($post->tags as $tag)
+                             <span class="badge bg-secondary"> {{ $tag }}</span>    
+                            @endforeach
+                            <small class="comment-count">{{ $post->comments->count() }} </small>  
+                            <i class="far fa-comments"></i>  
+                        </div>
+                        <hr>
                     </div>
                 </div>
             </div>
@@ -32,17 +40,14 @@
 @endsection
 
 @section('content')
-
     <article class="mb-4">
         <div class="container px-4 px-lg-5">
             <div class="row justify-content-center">
-                <div class="col-10 mb-5">
-                    @foreach ($post->tags as $tag)
-                        <span class="badge bg-secondary"> {{ $tag }}</span>    
-                    @endforeach
-                    <span class="float-right"> {{ $post->comments->count() }} <i class="far fa-comments fa-2x"></i></span>
-
-                    {!! $post->content !!}
+                <div class="col-10 mb-5"><hr>
+                    <h1>{{ $post->title }}</h1>
+                    <p>
+                        {!! $post->content !!}
+                    </p>
 
                     <p class="post-meta">
                         Posté par
@@ -55,8 +60,8 @@
                     @if ($post->is_published)
                         {{-- edit & delete button  --}}
                         @include('includes.modals.delete')
-                        <div class="row">
-                            <div class="felx justify-content-center">
+                        <div class="row mb-5">
+                            <div class="text-center">
                                 <a type="button" class="btn btn-primary text-uppercase" href="{{ route('post.edit', $post)}}" >
                                     <i class="fa fa-edit"></i>
                                     Modifier l'article
@@ -70,7 +75,7 @@
                     @else
                         {{-- publish the post --}}
                         <div class="row">
-                            <div class="flex d-flex justify-content-center">
+                            <div class="text-center">
                                 <a type="button" href="{{ route('post.publish',$post) }}" class="btn btn-primary text-uppercase">Publier le post</a>
                             </div>
                         </div>
@@ -82,7 +87,7 @@
 
 
     <!-- Comments Part -->
-    <hr class="my-4" />
+    <hr class="my-4 mt-5" />
     @if ($post->is_published)
         <div class="container">
             <div class="row">
@@ -106,13 +111,20 @@
                     </form>
                         
                     <!-- List of comments -->
-                    <div class="comment-section">
+                    <div class="comment-section mt-5">
                         @foreach ($post->comments as $comment)
                             <div class="media g-mb-30 media-comment">
                                 <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
                                     <div class="g-mb-15">
-                                        <h5 class="h5 g-color-gray-dark-v1 mb-0">{{ $comment->author_name }}</h5>
-                                        <span class="g-color-gray-dark-v4 g-font-size-12">{{ $comment->created_at }}</span>
+                                        <div class="flex d-flex">
+                                            <div class="avatar">
+                                                <div class="avatar__letters">
+                                                    {{$comment->author_name[0]  }}                       
+                                                </div>
+                                            </div>
+                                            <h5 class="author_name mt-2 g-color-gray-dark-v1">{{ $comment->author_name }}</h5>
+                                        </div>
+                                        <span class="g-color-gray-dark-v4 g-font-size-12"> {{ $comment->created_at->isoFormat('MMMM Do YYYY, h:mm:ss a','UTC') }}</span>
                                     </div>
                                     <p>{{ $comment->content }}</p> 
                                 </div>
@@ -126,11 +138,11 @@
 @endsection
 
 
-@section('script')
-
-<!-- Custom JS -->
-<script type="text/javascript" src="{{ asset('js/custom.js') }}"></script>    
+@section('script') 
     
+<!-- Custom JS -->
+<script type="text/javascript" src="{{ asset('js/custom.js') }}"></script>   
+
 <script type="text/javascript">
     
     function pushComment(comment) {
@@ -138,14 +150,16 @@
         let comment_html = `<div class="media g-mb-30 media-comment">
                                 <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
                                     <div class="g-mb-15">
-                                        <h5 class="h5 g-color-gray-dark-v1 mb-0">${comment.author_name}</h5>
-                                        <span class="g-color-gray-dark-v4 g-font-size-12">${comment.created_at}</span>
+                                        <h5 class="h5 g-color-gray-dark-v1 mb-0">${comment[0].author_name}</h5>
+                                        <span class="g-color-gray-dark-v4 g-font-size-12">${comment[1]}</span>
                                     </div>
-                                    <p>${comment.content}</p>    
+                                    <p>${comment[0].content}</p>    
                                 </div>
                             </div>`;
 
         $('.comment-section').append(comment_html);
+        newCount = parseInt($('.comment-count').text()) + 1;
+        $('.comment-count').text(newCount);
     }
 </script>
 @endsection

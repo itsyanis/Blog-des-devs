@@ -15,9 +15,25 @@
         <div class="container position-relative px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
-                    <div class="site-heading">
-                        <h2>Modifier l'article</h2>
-                        <span class="subheading">{{ $post->title }}</span>
+
+                    {{-- test --}}
+                    <div class="post-heading">
+                        <h1><i class="far fa-edit"></i> Modifier l'article</h1>
+                        <hr>
+                        <h2>{{ $post->title }}</h2>
+                        <h2 class="subheading">{{ $post->subtitle }}</h2>
+                        <span class="meta">
+                            Posté par
+                            <a href="#!">{{ $post->author->first_name .' '. $post->author->last_name }}</a>
+                            {{ $post->created_at->toFormattedDateString() }}
+                        </span>
+                        <div class="flex mt-3">
+                            @foreach ($post->tags as $tag)
+                             <span class="badge bg-secondary"> {{ $tag }}</span>    
+                            @endforeach
+                            <small>{{ $post->comments->count() }} <i class="far fa-comments"></i></small>    
+                        </div>
+                        <hr>
                     </div>
                 </div>
             </div>

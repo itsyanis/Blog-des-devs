@@ -34,7 +34,10 @@
                               <span class="badge bg-secondary"> {{ $tag }}</span>    
                             @endforeach
 
-                            <p>{!! Str::words($post->content, 30 , ' ...') !!}</p>
+                            <p>
+                                {!! Str::words($post->content, 50 , ' ...') !!}
+                                <a href="{{ route('post.show',$post) }}"> Lire la suite </a> 
+                            </p>
 
                             <p class="post-meta">
                                 Posté par

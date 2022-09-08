@@ -29,7 +29,7 @@ class PostFactory extends Factory
             'title'     => $this->faker->title,
             'subtitle'  => $this->faker->sentence(2),
             'tags'      => $this->faker->words(2),
-            'content'   => $this->faker->paragraph(8),
+            'content'   => $this->faker->paragraph(25),
             'image'     => $this->faker->image(),
             'is_published' => $this->faker->boolean(),
             'category_id'  => $this->faker->randomElement(Category::pluck('id')),
