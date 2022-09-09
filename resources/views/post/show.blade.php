@@ -24,7 +24,7 @@
                             <a href="#!">{{ $post->author->first_name .' '. $post->author->last_name }}</a>
                             {{ $post->created_at->toFormattedDateString() }}
                         </span>
-                        <div class="flex mt-3">
+                        <div class="flex mt-4">
                             @foreach ($post->tags as $tag)
                              <span class="badge bg-secondary"> {{ $tag }}</span>    
                             @endforeach
@@ -45,9 +45,7 @@
             <div class="row justify-content-center">
                 <div class="col-10 mb-5"><hr>
                     <h1>{{ $post->title }}</h1>
-                    <p>
-                        {!! $post->content !!}
-                    </p>
+                    <p>{!! $post->content !!}</p>
 
                     <p class="post-meta">
                         Posté par
@@ -150,10 +148,17 @@
         let comment_html = `<div class="media g-mb-30 media-comment">
                                 <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
                                     <div class="g-mb-15">
-                                        <h5 class="h5 g-color-gray-dark-v1 mb-0">${comment[0].author_name}</h5>
-                                        <span class="g-color-gray-dark-v4 g-font-size-12">${comment[1]}</span>
+                                        <div class="flex d-flex">
+                                            <div class="avatar">
+                                                <div class="avatar__letters">
+                                                    ${comment[0].author_name[0]}                       
+                                                </div>
+                                            </div>
+                                            <h5 class="author_name mt-2 g-color-gray-dark-v1">${comment[0].author_name}</h5>
+                                        </div>
+                                        <span class="g-color-gray-dark-v4 g-font-size-12"> ${comment[1]}</span>
                                     </div>
-                                    <p>${comment[0].content}</p>    
+                                    <p>${comment[0].content}</p> 
                                 </div>
                             </div>`;
 
