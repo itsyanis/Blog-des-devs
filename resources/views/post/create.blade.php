@@ -29,7 +29,7 @@
 <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-10">
-            <p class="text-center form-header">Ecrivez, pendant que vous avez du génie, pendant que c'est le dieu qui vous dicte, et non la mémoire.</p>
+            <h4 class="text-center form-header">Ecrivez, pendant que vous avez du génie, pendant que c'est le dieu qui vous dicte, et non la mémoire.</h4>
             <div class="my-5">
                 <form action="{{ route('post.store') }}" method="POST" autocomplete="off" is-dynamic-form>
                     @csrf

@@ -18,23 +18,20 @@
                 @if (Auth::check())
                     <!-- User Dropdown -->
                     <li class="nav-item">
-                        <div class="dropdown">
+                        {{-- <div class="dropdown"> --}}
                             <!-- User avatar -->
-                            <a class="nav-link dropdown-toggle px-lg-4 mt-1" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                <div class="avatar">
-                                    <div class="avatar__letters">
-                                        {{ Auth::user()->first_name[0] . Auth::user()->last_name[0] }}                             
-                                    </div>
-                                </div>                    
+                            <a class="nav-link px-lg-3 py-3 py-lg-4" href="#">
+                                <i class="fa fa-user"></i>
+                                {{ Auth::user()->getFullName() }}                                              
                             </a>
                         
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <form action="{{ route('logout') }}" method="POST">
-                                   @csrf
-                                   <button class="dropdown-item" type="submit"><i class="fas fa-sign-out-alt"></i> Déconnextion</button>
+                                    @csrf
+                                    <button class="dropdown-item" type="submit"><i class="fas fa-sign-out-alt"></i> Déconnextion</button>
                                 </form>
                             </div>
-                        </div>
+                        {{-- </div> --}}
                     </li>
                 @endif
             </ul>

@@ -29,7 +29,7 @@
                                         <h2 class="post-title">{{ $post->title }} </h2> 
                                     </div>
                                 </a>
-                                <small>{{ $post->comments->count() }} <i class="far fa-comments fa-2x"></i></small>    
+                                <span class="mt-2">{{ $post->comments->count() }} <i class="far fa-comments fa-2x"></i></small>    
                             </div>
                             <h3 class="post-subtitle">{{ $post->subtitle }}</h3>
                             <span class="badge bg-secondary"> {{ $post->category->name }}</span>    

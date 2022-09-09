@@ -19,16 +19,18 @@
 @section('content')
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
-
             @if ($posts->isNotEmpty())
-                <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="col-md-12 col-lg-10 col-xl-8">
                     @foreach ($posts as $post)
                         <!-- Post preview-->
                         <div class="post-preview">
-                            <a href="{{ route('post.show', $post->id) }}">
-                                <h2 class="post-title">{{ $post->title }}</h2>
-                                <h3 class="post-subtitle">{{ $post->subtitle }}</h3>
-                            </a>
+                            <div class="flex d-flex justify-content-between">
+                                <a href="{{ route('post.show', $post->id) }}">
+                                    <h2 class="post-title">{{ $post->title }}</h2>
+                                </a>
+                                <small class="mt-2">{{ $post->comments->count() }} <i class="far fa-comments fa-2x"></i></small>    
+                            </div>
+                            <h3 class="post-subtitle">{{ $post->subtitle }}</h3>
 
                             @foreach ($post->tags as $tag)
                               <span class="badge bg-secondary"> {{ $tag }}</span>    
