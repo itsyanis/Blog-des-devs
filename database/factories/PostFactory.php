@@ -26,7 +26,7 @@ class PostFactory extends Factory
         return [
             'author_id' => $this->faker->randomElement(User::pluck('id')),
             'slug'      => $this->faker->unique()->slug,
-            'title'     => $this->faker->title,
+            'title'     => $this->faker->sentence(4),
             'subtitle'  => $this->faker->sentence(2),
             'tags'      => $this->faker->words(2),
             'content'   => $this->faker->paragraph(25),
