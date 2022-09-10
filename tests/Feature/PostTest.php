@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Http\Requests\PostRequest;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\Category;
 use App\Models\Post;
@@ -14,7 +13,7 @@ class PostTest extends TestCase
     use WithFaker;
 
     /**
-     * A basic test example.
+     * Test user can show post.
      *
      * @return void
      */
@@ -25,12 +24,22 @@ class PostTest extends TestCase
         $response->assertStatus(200);
     }
 
+    /**
+     * Test user can access create page.
+     *
+     * @return void
+     */
     public function test_user_can_create_post() : void
     {
         $response = $this->get(route('post.create'));
         $response->assertStatus(200);
     }
 
+    /**
+     * Test user can store new post.
+     *
+     * @return void
+     */
     public function test_user_can_store_post() : void
     {
         $response = $this->post(route('post.store',[
@@ -48,12 +57,46 @@ class PostTest extends TestCase
         $response->assertStatus(302);
     }
 
+     /**
+     * Test user cannot store new post with empty data.
+     *
+     * @return void
+     */
+    public function test_user_cannot_store_with_empty_data() : void
+    {
+        $response = $this->withHeaders(['Accept' => 'application/json'])
+                         ->post(route('post.store',[
+                                    'author_id' => '',
+                                    'slug'      => '',
+                                    'title'     => '',
+                                    'subtitle'  => '',
+                                    'tags'      => '',
+                                    'content'   => '',
+                                    'image'     => '',
+                                    'is_published' => '',
+                                    'category_id'  => '',
+                        ])
+                    );
+        
+        $response->assertStatus(422);
+    }
+
+    /**
+     * Test user can access edit page.
+     *
+     * @return void
+     */
     public function test_user_can_edit_post() : void
     {
         $response = $this->get(route('post.edit', ['post' => Post::first()]));
         $response->assertStatus(200);
     }
 
+    /**
+     * Test user can update post.
+     *
+     * @return void
+     */
     public function test_user_can_update_post() : void
     {
         $newPost = [
@@ -70,6 +113,11 @@ class PostTest extends TestCase
     }
 
 
+    /**
+     * Test user can publish post.
+     *
+     * @return void
+     */
     public function test_user_can_publish_post() : void
     {
         $post = Post::where('is_published','=', 0)->first();
@@ -78,6 +126,11 @@ class PostTest extends TestCase
     }
 
     
+    /**
+     * Test user can delete post.
+     *
+     * @return void
+     */
     public function test_user_can_delete_post() : void
     {   
         $response = $this->delete(route('post.delete',['id' => Post::pluck('id')->first()]));

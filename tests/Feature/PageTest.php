@@ -8,7 +8,7 @@ class PageTest extends TestCase
 {
 
     /**
-     * A basic test example.
+     * Test user can access index page.
      *
      * @return void
      */
@@ -19,17 +19,26 @@ class PageTest extends TestCase
         $response->assertStatus(200);
     }
 
+    /**
+     * Test user can access about page.
+     *
+     * @return void
+     */
     public function test_user_can_access_about_page() : void
     {
         $response = $this->get(route('about'));
         $response->assertStatus(200);
     }
 
+    /**
+     * Test user can access contact page.
+     *
+     * @return void
+     */
     public function test_user_can_access_contact_page() : void
     {
         $response = $this->get(route('contact'));
         $response->assertStatus(200);
     }
   
-
 }

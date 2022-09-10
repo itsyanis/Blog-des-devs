@@ -12,7 +12,6 @@ use App\Http\Requests\FileRequest;
 use App\Http\Requests\PostRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CommentRequest;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
