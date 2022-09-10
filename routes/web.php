@@ -18,15 +18,11 @@ use App\Http\Controllers\ContactController;
 */
 
 
-
-Route::prefix('/')->group(function () {
-    Route::get('', [PagesController::class, 'index'])->name('index');
-    Route::get('about', [PagesController::class, 'about'])->name('about');
-    Route::get('contact', [PagesController::class, 'contact'])->name('contact');
-    Route::post('download_CV', [PagesController::class, 'download_CV'])->name('download_CV');
-});
-
+Route::get('/', [PagesController::class, 'index'])->name('index');
+Route::get('about', [PagesController::class, 'about'])->name('about');
+Route::get('contact', [PagesController::class, 'contact'])->name('contact');
 Route::post('contact', [ContactController::class, 'contact'])->name('contact');
+Route::post('download_CV', [PagesController::class, 'download_CV'])->name('download_CV');
 
 
 
@@ -41,7 +37,6 @@ Route::prefix('post')->group(function () {
     Route::put('/update/{post}', [PostController::class, 'update'])->name('post.update');
     Route::post('/ckeditor/upload', [PostController::class, 'CKEditorUploadImage'])->name('ckeditor.upload');
     Route::delete('/delete/{id}', [PostController::class, 'destroy'])->name('post.delete');
-    Route::get('unpublished', [PostController::class, 'unpublished_post'])->name('unpublished.index');
 });
 
 
