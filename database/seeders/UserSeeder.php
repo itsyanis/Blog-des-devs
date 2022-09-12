@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
             'first_name' => 'Yanis',
             'last_name'  => 'Blogger',
             'email'      => 'yanis@gmail.com',
+            'role'       => 'admin',
             'password'   =>  bcrypt('Bl0g@2022'),
             'remember_token' => Str::random(10),
         ]);
