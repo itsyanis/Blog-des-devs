@@ -135,6 +135,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $this->authorize('update', $post);
+
         $post = Post::findOrFail($post->id);
         $categories = Category::select('id', 'name')->get();
 
@@ -156,6 +158,8 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post)
     {
+        $this->authorize('update', $post);
+
         if (request()->ajax()) {
             $post = Post::findOrFail($post->id);
        
@@ -186,6 +190,8 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete', Post::class);
+
         $post = Post::findOrFail($id);
 
         if ($post->delete()) {
