@@ -54,7 +54,7 @@
                     </p>
                 </div>
 
-                @if (Auth::user())
+                @can ('update', Post::class)
                     @if ($post->is_published)
                         {{-- edit & delete button  --}}
                         @include('includes.modals.delete')
@@ -78,7 +78,7 @@
                             </div>
                         </div>
                     @endif
-                @endif
+                @endcan
             </div>
         </div>
     </article>
