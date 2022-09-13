@@ -1,12 +1,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="keywords" content="Blog, Le Blog des Devs, Blog de dev, Informatique, IT, Développement web, Dev, Web, Dev web, Code, CS, Tutos, Article, Langages, Framework, PHP, Laravel" />
+    <meta name="keywords" content="Blog, Le Blog des Devs, Blog de dev, Informatique, IT, Développement web, Dev, computer ,Web, Dev web, Code, CS, Tutos, Article, Langages, Framework, PHP, Laravel" />
     <meta name="description" content="Le Blog des Devs est un blog consacrés au amoureux du code. Atricle, news, tutos vous serez servis" />
     <meta name="author" content="Le Blog des Devs" />
     <meta name="copyright" content="Yanis MAAFI" />
 
-    <title> Le Blog des Devs </title>
+    <title> {{ __('general.title.app') }} </title>
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
     <!-- Google fonts-->
