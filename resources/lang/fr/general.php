@@ -38,7 +38,9 @@ return [
     'button.create'             => 'Créer un article',
     'button.add_content'        => 'Ajouter le contenu',
     'button.publish'            => 'publier l\'article',
-    'button.comment'            => 'Commenter !'
+    'button.comment'            => 'Commenter !',
+    'button.logout'             => 'Déconnextion',
+
 
 
 ];

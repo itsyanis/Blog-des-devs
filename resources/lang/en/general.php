@@ -36,7 +36,8 @@ return [
     'button.create'             => 'Create an article',
     'button.add_content'        => 'Submit article',
     'button.publish'            => 'Publish the article',
-    'button.comment'            => 'Comment !'
+    'button.comment'            => 'Comment !',
+    'button.logout'             => 'Logout',
 
 
 ];

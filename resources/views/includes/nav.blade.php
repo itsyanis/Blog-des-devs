@@ -1,5 +1,5 @@
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="{{ route('index') }}">Le Blog des Devs
+        <a class="navbar-brand" href="{{ route('index') }}">{{ __('general.title.app')}}
            {{-- <img class="logo" src="{{ asset('img/logo/')}}" class="mt-0" alt=""> --}}
         </a>
       
@@ -28,7 +28,7 @@
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <form action="{{ route('logout') }}" method="POST">
                                     @csrf
-                                    <button class="dropdown-item" type="submit"><i class="fas fa-sign-out-alt"></i> Déconnextion</button>
+                                    <button class="dropdown-item" type="submit"><i class="fas fa-sign-out-alt"></i> {{ __('general.button.logout') }}</button>
                                 </form>
                             </div>
                         {{-- </div> --}}
