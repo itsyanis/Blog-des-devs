@@ -6,8 +6,8 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <div class="site-heading">
-                        <h1>Blog</h1>
-                        <span class="subheading">Un blog consacré aux amoureux du développment web</span>
+                        <h1>{{ __('general.title.blog')}}</h1>
+                        <span class="subheading">{{ __('general.subheading.intro')}}</span>
                     </div>
                 </div>
             </div>
@@ -38,13 +38,13 @@
 
                             <p>
                                 {!! Str::words($post->content, 50 , ' ...') !!}
-                                <a href="{{ route('post.show',$post) }}"> Lire la suite </a> 
+                                <a href="{{ route('post.show',$post) }}"> {{ __('general.read_more')}} </a> 
                             </p>
 
                             <p class="post-meta">
-                                Posté par
+                                {{ __('general.title.posted_by')}}
                                 <a href="{{ route('about') }}">{{ $post->author->first_name . ' ' . $post->author->last_name }}</a>
-                                le {{ $post->created_at->toFormattedDateString() }}
+                                , {{ $post->created_at->toFormattedDateString() }}
                             </p>
                         </div>
                         <!-- Divider-->

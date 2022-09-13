@@ -11,9 +11,11 @@ return [
     */
 
     'heading.welcome'           => 'Welcome',
-    'subheading.intro'                => 'A blog dedicated to web development lovers',
+    'subheading.intro'          => 'A blog dedicated to web development lovers',
     'subheading.posted_by'      => 'Posted by',
 
+    // Titles
+    'title.blog'                => 'Blog',
     'title.comment'             => 'Comments',
     'title.posted_by'           => 'Posted by',
     'read_more'                =>  'Read More',
@@ -24,6 +26,7 @@ return [
     'button.delete'             => 'Delete the article',
     'button.update'             => 'edit the article',
     'button.create'             => 'Create an article',
+    'button.add_content'        => 'Submit article',
     'button.publish'            => 'Publish the article',
     'button.comment'            => 'Comment !'
 

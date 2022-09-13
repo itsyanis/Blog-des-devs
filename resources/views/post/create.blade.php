@@ -34,21 +34,21 @@
                 <form action="{{ route('post.store') }}" method="POST" autocomplete="off" is-dynamic-form>
                     @csrf
                     <div class="mb-3">
-                        <label for="title" class="form-label">Titre :</label>
-                        <input type="text" class="form-control" name="title" id="title" placeholder="Entrer un titre">
+                        <label for="title" class="form-label">{{ __('form.label.title') }}</label>
+                        <input type="text" class="form-control" name="title" id="title" placeholder="{{ __('form.placeholder.title') }}">
                         <div class="invalid-feedback title-error"></div>
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle" class="form-label">Sous-titre :</label>
-                        <input type="text" class="form-control" name="subtitle" id="subtitle" placeholder="Entrer un sous-titre (facultatif)">
+                        <label for="subtitle" class="form-label">{{ __('form.label.subtitle') }}</label>
+                        <input type="text" class="form-control" name="subtitle" id="subtitle" placeholder="{{ __('form.placeholder.subtitle') }}">
                         <div class="invalid-feedback subtitle-error"></div>
                     </div>
 
                     <div class="mb-3">
-                        <label for="category" class="form-label">Catégorie :</label>
+                        <label for="category" class="form-label">{{ __('form.label.category') }}</label>
                         <select class="form-select" name="category" id="category" >
-                            <option selected hidden>Sléctionnez une catégorie</option>
+                            <option selected hidden>{{ __('form.placeholder.category') }}</option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}"> {{ $category->name }}</option>
                             @endforeach
@@ -57,27 +57,27 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="tags-input" class="form-label">Tags :</label><br>
+                        <label for="tags-input" class="form-label">{{ __('form.label.tags') }}</label><br>
                         <input type="text" class="form-control" name="tags" id="tags-input"/> 
                         <div class="invalid-feedback tags-error"></div>               
                     </div>
 
                     <div class="mb-3">
                         <div class="col-12">
-                            <label for="file-dropzone" class="form-label">Image :</label><br>
+                            <label for="file-dropzone" class="form-label">{{ __('form.label.image') }}</label><br>
                             <div class="dropzone" name="image" id="file-dropzone"></div>
                             <div class="invalid-feedback image-error"></div>               
                         </div>                    
                     </div>
 
                     <div class="mb-3">
-                        <label for="content" class="form-label">Contenu :</label>
+                        <label for="content" class="form-label">{{ __('form.label.content') }}</label>
                         <textarea name="content" id="editor" ></textarea>
                         <div class="invalid-feedback content-error"></div>               
                     </div>
 
                     <!-- Submit Button-->
-                    <button type="submit" class="btn btn-primary text-uppercase">Ajouter le contenu</button>
+                    <button type="submit" class="btn btn-primary text-uppercase">{{ __('general.button.add_content') }}</button>
                 </form>
             </div>
         </div>
@@ -111,7 +111,7 @@
  
        /*------ Dzopzone ------*/
         Dropzone.options.fileDropzone = {
-            dictDefaultMessage: "Déposer des fichiers ici pour télécharger",
+            dictDefaultMessage: "Déposer des fichiers ici pour télécharger <br> Upload files here to download",
             url: '{{ route('dropzone.store') }}',
             acceptedFiles: ".jpeg, .jpg, .png, .gif",
             maxFilesize: 8,

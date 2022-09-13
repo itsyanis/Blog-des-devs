@@ -11,11 +11,14 @@ return [
     */
 
     'heading.welcome'           => 'Bienvenue',
-    'subheading.intro'                => 'Un blog consacré aux amoureux du développement web',
+    'subheading.intro'          => 'Un blog consacré aux amoureux du développement web',
     'subheading.posted_by'      => 'Posté par',
 
+    // Titles
+    'title.blog'                => 'Blog',
     'title.comment'             => 'Commentaires',
     'title.posted_by'           => 'Posté par',
+
     'read_more'                =>  'Lire la suite',
 
 
@@ -25,6 +28,7 @@ return [
     'button.delete'             => 'Supprimer l\'article',
     'button.update'             => 'Modifier l\'article',
     'button.create'             => 'Créer un article',
+    'button.add_content'        => 'Ajouter le contenu',
     'button.publish'            => 'publier l\'article',
     'button.comment'            => 'Commenter !'
 
