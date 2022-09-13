@@ -20,9 +20,9 @@
                         <h1>{{ $post->title }}</h1>
                         <h2 class="subheading">{{ $post->subtitle }}</h2>
                         <span class="meta">
-                            Posté par
+                            {{ __('general.subheading.posted_by')}}
                             <a href="#!">{{ $post->author->first_name .' '. $post->author->last_name }}</a>
-                            {{ $post->created_at->toFormattedDateString() }}
+                            , {{ $post->created_at->toFormattedDateString() }}
                         </span>
                         <div class="flex mt-4">
                             @foreach ($post->tags as $tag)
@@ -48,9 +48,9 @@
                     <p>{!! $post->content !!}</p>
 
                     <p class="post-meta">
-                        Posté par
+                        {{ __('general.title.posted_by') }}
                         <a href="{{ route('about') }}">{{ $post->author->first_name . ' ' . $post->author->last_name }}</a>
-                        le {{ $post->created_at->toFormattedDateString() }}
+                        , {{ $post->created_at->toFormattedDateString() }}
                     </p>
                 </div>
 
@@ -62,11 +62,11 @@
                             <div class="text-center">
                                 <a type="button" class="btn btn-primary text-uppercase" href="{{ route('post.edit', $post)}}" >
                                     <i class="fa fa-edit"></i>
-                                    Modifier l'article
+                                    {{ __('general.button.edit') }}
                                 </a>
                                 <button type="button" class="btn btn-primary text-uppercase" data-bs-toggle="modal" data-bs-target="#deleteModal">
                                     <i class="fa fa-trash"></i>
-                                    Supprimer l'article
+                                    {{ __('general.button.delete') }}
                                 </button>
                             </div>
                         </div>
@@ -90,7 +90,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 mb-5">
-                    <h4 class="mb-4">Commentaires :</h4>
+                    <h4 class="mb-4"> {{ __('general.title.comment') }} :</h4>
                     <!-- Add Comment Form -->
                     <form action="{{ route('post.comment', $post->id) }}" method="POST" is-dynamic-form>
                         @csrf
@@ -105,7 +105,7 @@
                         </div>
                         
                         <!-- Comment Button -->
-                        <button type="submit" class="btn btn-primary">Commenter !</button>
+                        <button type="submit" class="btn btn-primary">{{ __('general.button.comment') }}</button>
                     </form>
                         
                     <!-- List of comments -->

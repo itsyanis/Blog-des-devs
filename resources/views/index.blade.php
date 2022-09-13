@@ -6,8 +6,8 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <div class="site-heading">
-                        <h1>Bienvenue</h1>
-                        <span class="subheading">Un blog consacré aux amoureux du développment web</span>
+                        <h1>{{ __('general.heading.welcome') }}</h1>
+                        <span class="subheading">{{ __('general.subheading.intro')}}</span>
                     </div>
                 </div>
             </div>
@@ -35,13 +35,13 @@
                             <span class="badge bg-secondary"> {{ $post->category->name }}</span>    
                             <p>
                                 {!! Str::words($post->content, 50 , ' ...') !!} 
-                                <a href="{{ route('post.show', $post) }}">  Lire la suite</a>
+                                <a href="{{ route('post.show', $post) }}">  {{ __('general.read_more') }}</a>
                             </p>
                             
                             <p class="post-meta">
-                                Posté par
+                                {{ __('general.title.posted_by') }}
                                 <a href="{{ route('about') }}">{{ $post->author->first_name . ' ' . $post->author->last_name }}</a>
-                                le {{ $post->created_at->toFormattedDateString() }}
+                                , {{ $post->created_at->toFormattedDateString() }}
                             </p>
                         </div>
                         @if (!$loop->last)
@@ -58,12 +58,12 @@
             <div class="text-center">
                 <!-- Create Post-->
                 @if (Auth::user())           
-                <a type="button" href="{{ route('post.create') }}" class="btn btn-primary text-uppercase"><i class="fa fa-plus"></i> Ajouter un article</a>
+                    <a type="button" href="{{ route('post.create') }}" class="btn btn-primary text-uppercase"><i class="fa fa-plus"></i> {{ __('general.button.create') }}</a>
                 @endif
 
                 <!-- More Post-->
                 @if ($posts->isNotEmpty())
-                    <a type="button" class="btn btn-primary text-uppercase" href="{{ route('post.index') }}">Voir tous les articles →</a>
+                    <a type="button" class="btn btn-primary text-uppercase" href="{{ route('post.index') }}">{{ __('general.button.see_more') }} <i class="fa fa-arrow-right"></i></a>
                 @endif  
             </div>
         </div>
