@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CategoryFactory extends Factory
 {
-
     /**
      * The name of the factory's corresponding model.
      *
@@ -24,7 +23,7 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->randomElement(['Web Development', 'Network', 'Big Data', 'IA']),
+            'name' => $this->faker->randomElement(config("categories")),
             'slug' => $this->faker->unique()->slug,
         ];
     }
