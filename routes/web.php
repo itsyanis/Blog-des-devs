@@ -25,24 +25,31 @@ Route::post('contact', [ContactController::class, 'contact'])->name('contact');
 Route::post('download_CV', [PagesController::class, 'download_CV'])->name('download_CV');
 
 
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::prefix('post')->group(function () {
+        Route::get('create', [PostController::class, 'create'])->name('post.create');
+        Route::post('store', [PostController::class, 'store'])->name('post.store');
+        Route::get('publish/{post}', [PostController::class, 'publish'])->name('post.publish');
+        Route::get('edit/{post}', [PostController::class, 'edit'])->name('post.edit');
+        Route::put('update/{post}', [PostController::class, 'update'])->name('post.update');
+        Route::post('ckeditor/upload', [PostController::class, 'CKEditorUploadImage'])->name('ckeditor.upload');
+        Route::delete('delete/{id}', [PostController::class, 'destroy'])->name('post.delete');
+    });
+
+    Route::prefix('dropzone')->group(function () {
+        Route::post('store', [PostController::class, 'storeTempFile'])->name('dropzone.store');
+        Route::post('delete', [PostController::class, 'deleteTempFile'])->name('dropzone.delete');
+    });
+
+});
 
 Route::prefix('post')->group(function () {
-    Route::get('/all-post', [PostController::class, 'index'])->name('post.index');
-    Route::get('/create', [PostController::class, 'create'])->name('post.create');
-    Route::post('/store', [PostController::class, 'store'])->name('post.store');
-    Route::get('/{id}', [PostController::class, 'show'])->name('post.show');
-    Route::get('/publish/{post}', [PostController::class, 'publish'])->name('post.publish');
-    Route::post('/comment/{post_id}', [PostController::class, 'addComment'])->name('post.comment');
-    Route::get('/edit/{post}', [PostController::class, 'edit'])->name('post.edit');
-    Route::put('/update/{post}', [PostController::class, 'update'])->name('post.update');
-    Route::post('/ckeditor/upload', [PostController::class, 'CKEditorUploadImage'])->name('ckeditor.upload');
-    Route::delete('/delete/{id}', [PostController::class, 'destroy'])->name('post.delete');
+    Route::get('all-post', [PostController::class, 'index'])->name('post.index');
+    Route::get('{id}', [PostController::class, 'show'])->name('post.show');
+    Route::post('comment/{post_id}', [PostController::class, 'addComment'])->name('post.comment');
 });
 
 
-Route::prefix('dropzone')->group(function () {
-    Route::post('store', [PostController::class, 'storeTempFile'])->name('dropzone.store');
-    Route::post('delete', [PostController::class, 'deleteTempFile'])->name('dropzone.delete');
-});
+
 
 require __DIR__.'/auth.php';

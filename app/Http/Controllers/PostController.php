@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
-    
     /**
      * Display the published post.
      *
@@ -28,7 +27,6 @@ class PostController extends Controller
         $posts = Post::with(['category', 'author'])->where('is_published', true)->paginate(5);
         return view('post.index', compact('posts'));
     }
-    
 
 
     /**
@@ -50,9 +48,9 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
-        if (request()->ajax()) {
+        if ($request->ajax()) {
             $post = new Post();
-       
+
             $slug = new Slugify();
             $post->slug = $slug->slugify($request->title);
             $post->title = ucfirst($request->title);
@@ -62,7 +60,7 @@ class PostController extends Controller
             $post->content = $request->content;
             $post->category()->associate($request->category);
             $post->author()->associate(Auth::user()->id);
-          
+
             if ($post->save()) {
                 $notification = new Notifier('success', 'Le post a été ajouté avec succès', 'redirectToShowPage', $post->id);
                 return $notification->toJson();
@@ -96,9 +94,9 @@ class PostController extends Controller
     {
         $post = Post::where('slug', $post->slug)->firstOrFail();
         $post->is_published = true;
-        
+
         if ($post->save()) {
-            return redirect()->route('post.show',$post->id);
+            return redirect()->route('post.show', $post->id);
         }
     }
 
@@ -115,10 +113,10 @@ class PostController extends Controller
             $comment->author_name = ucfirst($request->author);
             $comment->content = ucfirst($request->comment);
             $comment->post()->associate($post_id);
-    
+
             if ($comment->save()) {
                 $comment_date = $comment->created_at->isoFormat('MMMM Do YYYY, h:mm:ss a', 'UTC');
-                $notification = new Notifier('success', 'Commentaire ajouté', 'pushComment', [$comment,$comment_date] );
+                $notification = new Notifier('success', 'Commentaire ajouté', 'pushComment', [$comment,$comment_date]);
                 return $notification->toJson();
             } else {
                 $notification = new Notifier('error', 'Une erreur est survenue veuillez vérifier vos champs', null, null);
@@ -162,7 +160,7 @@ class PostController extends Controller
 
         if (request()->ajax()) {
             $post = Post::findOrFail($post->id);
-       
+
             $slug = new Slugify();
             $post->slug = $slug->slugify($request->title);
             $post->title = ucfirst($request->title);
@@ -171,7 +169,7 @@ class PostController extends Controller
             $post->image = Storage::disk('public')->exists('temp') ? $this->getImage() : $post->image;
             $post->content = $request->content;
             $post->category()->associate($request->category);
-    
+
             if ($post->save()) {
                 $notification = new Notifier('success', 'Le post a été modifié avec succès', 'redirectToShowPage', $post->id);
                 return $notification->toJson();
@@ -217,7 +215,7 @@ class PostController extends Controller
         if (Storage::disk('public')->exists($tempImagePath)) {
             // Move the temporary image from 'public/temp' to public 'public/posts'
             Storage::move('public/' . $tempImagePath, 'public/' . $newImagePath);
-          
+
             // Delete the temp folder
             Storage::disk('public')->deleteDirectory('temp');
 
@@ -266,7 +264,7 @@ class PostController extends Controller
 
             // store the  CKEditor image on 'storage/public/posts'
             $request->file('upload')->storeAs('public/posts', $fileName);
-            
+
             $CKEditorFuncNum = $request->input('CKEditorFuncNum');
             $url = asset('storage/posts/'. $fileName);
             $msg = "L\'image a été uploadée avec succès.";
