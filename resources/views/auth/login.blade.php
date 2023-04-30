@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
+
 <x-guest-layout>
     <x-auth-card>
         <!-- Session Status -->
@@ -6,20 +8,23 @@
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
+        <div class="flex justify-content-center">
+            <a class="navbar-brand" href="{{ route('index') }}">{{ __('general.title.app')}}</a>
+        </div>
+       
         <form method="POST" action="{{ route('login') }}">
+
             @csrf
 
             <!-- Email Address -->
             <div>
                 <x-label for="email" :value="__('Email')" />
-
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
             </div>
 
             <!-- Password -->
             <div class="mt-4">
                 <x-label for="password" :value="__('Password')" />
-
                 <x-input id="password" class="block mt-1 w-full"
                                 type="password"
                                 name="password"
